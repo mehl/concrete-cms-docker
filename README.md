@@ -4,7 +4,7 @@ Work in progress.
 
 ## Configuration via Environment Variables
 
-See .env.example for a list of supported environment variables.
+See `.env.example` for a list of supported environment variables. Rename to `.env` and adjust the values as needed.
 
 ## Provisioning Scripts
 
