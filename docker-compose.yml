@@ -1,0 +1,37 @@
+services:
+  concretecms:
+    build: .
+    container_name: ${C5_CONTAINERNAME:-concretecms}
+    ports:
+      - "26627:80"
+    depends_on:
+      - concretecms_db
+    networks:
+      - concretecms_internal
+      - public
+    env_file:
+      - .env
+    volumes:
+      - ./volumes/concrete/application:/var/www/html/application
+      - ./volumes/concrete/packages:/var/www/html/packages
+      - ./provisioning:/provisioning:ro
+      # - ./volumes/concrete/.htaccess:/var/www/html/.htaccess
+
+  concretecms_db:
+    image: mariadb:11
+    networks:
+      - concretecms_internal
+    environment:
+      TZ: ${TZ}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
+    volumes:
+      - ./volumes/mariadb:/var/lib/mysql
+
+networks:
+  public:
+    driver: bridge
+  concretecms_internal:
+    internal: true
