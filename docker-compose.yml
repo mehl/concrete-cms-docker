@@ -12,8 +12,8 @@ services:
     env_file:
       - .env
     volumes:
-      - ./volumes/concrete/application:/var/www/html/application
-      - ./volumes/concrete/packages:/var/www/html/packages
+      - ./volumes/www/application:/var/www/html/application
+      - ./volumes/www/packages:/var/www/html/packages
       - ./provisioning:/provisioning:ro
       # - ./volumes/concrete/.htaccess:/var/www/html/.htaccess
 
