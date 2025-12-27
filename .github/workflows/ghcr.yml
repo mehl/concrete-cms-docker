@@ -29,6 +29,7 @@ jobs:
         run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
 
       - name: Build & Tag
+        id: build
         run: |
           IMAGE="ghcr.io/${{ github.repository_owner }}/$(basename ${{ github.repository }}):${{ steps.meta.outputs.VERSION }}"
           docker build -t $IMAGE .
@@ -36,4 +37,4 @@ jobs:
 
       - name: Push
         run: |
-          docker push ${{ steps.meta.outputs.IMAGE }}
+          docker push ${{ steps.build.outputs.IMAGE }}
