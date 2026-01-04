@@ -8,6 +8,8 @@ if [ -f "${WEB_ROOT}/index.php" ]; then
 fi
 
 inform "Copying Concrete CMS files to ${WEB_ROOT}..."
-cp -a "${C5_SKELETON}/." "${WEB_ROOT}/"
+# -a preserve attributes
+# -n no clobber (don't overwrite existing files)
+cp -an "${C5_SKELETON}/." "${WEB_ROOT}/"
 chown -R apache:app "${WEB_ROOT}"
 inform "Files copied."
