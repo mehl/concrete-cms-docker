@@ -1,12 +1,22 @@
 beginTask() {
-  prefix="⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿ "
+  prefix="⣿⣿⣿ "
   echo "$prefix $1"
 }
 
 inform() {
-  prefix="⣿⣿⣿⣿⣿⣿⣿         "
+  prefix="⣿   "
   echo "$prefix $1"
 }
+
+concrete_version() {
+  local root="$1"
+  local file="$root/concrete/config/concrete.php"
+
+  [ -f "$file" ] || return 1
+
+  sed -n "s/^[[:space:]]*'version'[[:space:]]*=>[[:space:]]*'\([^']*\)'.*/\1/p" "$file"
+}
+
 
 c5_config_set() {
     local key="$1"

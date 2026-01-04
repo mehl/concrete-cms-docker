@@ -1,11 +1,13 @@
 #!/bin/sh
 
 . /scripts/_lib.sh
+. /scripts/_update_concrete.sh
 
 for f in /scripts/*.sh; do
-  if [ "$f" = "/scripts/_lib.sh" ]; then
-    continue
-  fi
+  case "$(basename "$f")" in
+    _*) continue ;;
+  esac
+
   beginTask "$f"
   . "$f"
   inform ""

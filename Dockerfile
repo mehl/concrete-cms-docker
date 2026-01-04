@@ -38,6 +38,7 @@ RUN apk add --no-cache \
     php${PHP_VERSION}-tokenizer \
     php${PHP_VERSION}-pecl-imagick \
     tzdata \
+    rsync \
     curl \
     unzip \
     su-exec
