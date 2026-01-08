@@ -9,8 +9,7 @@ update_concrete() {
     mv "${WEB_ROOT}/concrete" "$old_dir" || return 1
     rsync -a "${C5_SKELETON}/concrete/" "${WEB_ROOT}/concrete/" || return 1
     chown -R apache:app "${WEB_ROOT}/concrete" || return 1
-    su-exec apache:app php concrete/bin/concrete c5:update
+    concrete_cli c5:update
     rm -rf "$old_dir" || return 1
     inform "Update completed."
 }
-

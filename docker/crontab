@@ -1,0 +1,3 @@
+## Concrete CMS Scheduler
+# Run the Concrete CMS scheduler every minute as the apache:app user, suppressing output
+* * * * * su-exec apache:app php /var/www/html/concrete/bin/concrete concrete:scheduler:run >> /dev/null 2>&1

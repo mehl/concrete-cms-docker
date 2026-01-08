@@ -18,6 +18,7 @@ ARG APACHE_GID=1000
 # ------------------------------------------------------------
 RUN apk add --no-cache \
     apache2 \
+    cronie \
     php${PHP_VERSION} \
     php${PHP_VERSION}-apache2 \
     php${PHP_VERSION}-pdo_mysql \
@@ -100,6 +101,8 @@ COPY docker/scripts/ /scripts/
 RUN chmod +x /scripts/*.sh
 COPY docker/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
+COPY docker/crontab /etc/crontabs/root
+RUN chown root:root /etc/crontabs/root && chmod 0600 /etc/crontabs/root
 
 EXPOSE 80
 

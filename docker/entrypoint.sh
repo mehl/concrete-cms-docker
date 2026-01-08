@@ -3,6 +3,19 @@
 . /scripts/_lib.sh
 . /scripts/_update_concrete.sh
 
+start_async_consumer() {
+  while true; do
+    concrete_cli messenger:consume async
+    status=$?
+    if [ "$status" -eq 0 ]; then
+      break
+    fi
+    sleep 5
+  done
+}
+
+
+
 for f in /scripts/*.sh; do
   case "$(basename "$f")" in
     _*) continue ;;
@@ -27,5 +40,8 @@ if [ ! -f "$FLAG" ]; then
     inform "No provisioning scripts found, skipping."
   fi
 fi
+
+crond
+start_async_consumer &
 
 exec "$@"

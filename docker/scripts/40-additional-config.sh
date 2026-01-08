@@ -13,8 +13,8 @@ cp application/config/production.concrete.default.php application/config/product
 # cp application/config/production.database.default.php application/config/production.database.php
 
 ## Add additional language packages
-su-exec apache:app php concrete/bin/concrete c5:language-install --add ${C5_LANGUAGE}
-su-exec apache:app php concrete/bin/concrete c5:language-install --add ${C5_SITE_LOCALE}
+concrete_cli c5:language-install --add ${C5_LANGUAGE}
+concrete_cli c5:language-install --add ${C5_SITE_LOCALE}
 
 
 ## Currently unused settings
