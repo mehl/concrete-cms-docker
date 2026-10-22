@@ -1,8 +1,9 @@
-FROM alpine:3.19
-
+FROM alpine:3.24
 LABEL maintainer="Bastian Frank"
 
-ENV PHP_VERSION=83
+ENV PHP_VERSION=84
+ARG PHP_MIN_VERSION=8.4.27
+
 ENV C5_VERSION=9.4.7
 ENV C5_URL=https://www.concretecms.org/download_file/8bbe8ad7-1b48-4f2e-9d7e-fcc9258385e7
 ENV C5_SKELETON=/opt/concrete
@@ -16,6 +17,7 @@ ARG APACHE_GID=1000
 # ------------------------------------------------------------
 # System + PHP + Apache
 # ------------------------------------------------------------
+RUN apk upgrade --no-cache
 RUN apk add --no-cache \
     apache2 \
     cronie \
@@ -43,6 +45,10 @@ RUN apk add --no-cache \
     curl \
     unzip \
     su-exec
+
+RUN php${PHP_VERSION} -r \
+    'echo PHP_VERSION, PHP_EOL; exit(version_compare(PHP_VERSION, $argv[1], ">=") ? 0 : 1);' \
+    "${PHP_MIN_VERSION}"
 
 # ------------------------------------------------------------
 # Apache basic setup (Alpine defaults + UID/GID matching)
@@ -79,7 +85,7 @@ RUN curl -fsSL ${C5_URL} -o concrete.zip \
 # ------------------------------------------------------------
 COPY docker/config/apache/000-concrete.conf /etc/apache2/conf.d/000-concrete.conf
 COPY docker/config/apache/.htaccess /var/www/html/.htaccess
-COPY docker/config/php/99-concrete.ini /etc/php83/conf.d/
+COPY docker/config/php/99-concrete.ini /etc/php${PHP_VERSION}/conf.d/
 COPY docker/config/concrete/production.concrete.php ${C5_SKELETON}/application/config/production.concrete.default.php
 COPY docker/config/concrete/production.database.php ${C5_SKELETON}/application/config/production.database.default.php
 
